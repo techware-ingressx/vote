@@ -1,5 +1,5 @@
 import { generateText, stepCountIs } from 'ai'
-import { anthropic } from '@ai-sdk/anthropic'
+import { openai } from '@ai-sdk/openai'
 import { createRecommendationTools } from '@/lib/ai/tools'
 import { CHEF_SYSTEM_PROMPT } from '@/lib/ai/system-prompt'
 import { createClient } from '@/lib/supabase/server'
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   const tools = createRecommendationTools(room.latitude, room.longitude, roomId)
 
   const { text } = await generateText({
-    model: anthropic('claude-sonnet-4-20250514'),
+    model: openai('gpt-4o'),
     system: CHEF_SYSTEM_PROMPT,
     tools,
     stopWhen: stepCountIs(5),
