@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "오늘 뭐 먹지? - AI 점심 투표",
   description: "AI 셰프가 추천하고, 팀이 투표로 결정!",
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
