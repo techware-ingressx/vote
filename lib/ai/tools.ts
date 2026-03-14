@@ -48,32 +48,6 @@ export function createRecommendationTools(
       },
     }),
 
-    get_weather: tool({
-      description: '현재 날씨 정보를 가져옵니다',
-      inputSchema: z.object({}),
-      execute: async () => {
-        const url = new URL('https://api.openweathermap.org/data/2.5/weather')
-        url.searchParams.set('lat', String(latitude))
-        url.searchParams.set('lon', String(longitude))
-        url.searchParams.set('appid', process.env.OPENWEATHER_API_KEY!)
-        url.searchParams.set('units', 'metric')
-        url.searchParams.set('lang', 'kr')
-
-        const res = await fetch(url.toString())
-        if (!res.ok) return { error: '날씨 조회 실패' }
-
-        const data = await res.json()
-        return {
-          temp: data.main.temp,
-          feels_like: data.main.feels_like,
-          description: data.weather[0].description,
-          is_rainy: ['Rain', 'Drizzle', 'Thunderstorm'].includes(data.weather[0].main),
-          is_cold: data.main.temp < 5,
-          is_hot: data.main.temp > 30,
-        }
-      },
-    }),
-
     get_vote_history: tool({
       description: '최근 투표 이력 (최근 7일, 선택된 식당)을 조회합니다',
       inputSchema: z.object({}),
