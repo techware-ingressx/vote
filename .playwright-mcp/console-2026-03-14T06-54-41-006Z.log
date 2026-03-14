@@ -1,0 +1,22 @@
+[      87ms] [ERROR] Event @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:161
+[     137ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/icon-192.png:0
+[     143ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/icon-192.png (Download error or resource isn't a valid image) @ http://localhost:3000/:0
+[   34345ms] ReferenceError: Script is not defined
+    at RootLayout (about://React/Server/file:///Users/jason/Library/CloudStorage/Dropbox/PC2/day6/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__31c4daa8._.js?15:86:269)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:106)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)
+    at progress (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)
+[   34320ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[   34470ms] ReferenceError: Script is not defined
+    at RootLayout (about://React/Server/file:///Users/jason/Library/CloudStorage/Dropbox/PC2/day6/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__31c4daa8._.js?6:86:269)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:1894:106)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2402:29)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2361:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2470:221)
+    at progress (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_9212ccad._.js:2640:13)
+[   38093ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/icon-192.png:0
+[   38095ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/icon-192.png (Download error or resource isn't a valid image) @ http://localhost:3000/:0
+[   58033ms] [ERROR] Error: 카카오맵 SDK 로드 실패
+    at script.onerror (http://localhost:3000/_next/static/chunks/_a975922b._.js?id=%255Bproject%255D%252Flib%252Fhooks%252Fuse-kakao-map.ts+%255Bapp-client%255D+%2528ecmascript%2529:28:20) @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
