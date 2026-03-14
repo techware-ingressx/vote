@@ -38,12 +38,16 @@ export default async function HistoryPage({ params }: Props) {
     .limit(30)
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50 to-white p-4">
+    <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-4">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">투표 이력</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-extrabold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent flex items-center gap-2">
+            📊 투표 이력
+          </h1>
           <Link href={`/room/${code}`}>
-            <Button variant="outline" size="sm">돌아가기</Button>
+            <Button variant="outline" size="sm" className="border-orange-200 text-orange-600 hover:bg-orange-50 hover:text-orange-700 cursor-pointer">
+              ← 돌아가기
+            </Button>
           </Link>
         </div>
         <VoteHistory sessions={sessions ?? []} />

@@ -154,47 +154,67 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
     : null
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50 to-white p-4">
+    <main className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-4">
       <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
-        <header className="text-center mb-6">
-          <h1 className="text-2xl font-bold">{room.name}</h1>
-          <div className="flex items-center justify-center gap-2 mt-1">
-            <Badge variant="outline">{currentUser.nickname}</Badge>
-            {isHost && <Badge>방장</Badge>}
-            <Badge variant="secondary">{participants.length}명 참여</Badge>
-          </div>
-          <div className="flex items-center justify-center gap-2 mt-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href)
-              }}
-            >
-              초대 링크 복사
-            </Button>
-            <Link href={`/room/${room.invite_code}/history`}>
-              <Button variant="ghost" size="sm">이력</Button>
-            </Link>
+        <header className="text-center mb-8">
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-md shadow-orange-100 p-5 border border-orange-100/50">
+            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
+              🍽️ {room.name}
+            </h1>
+            <div className="flex items-center justify-center gap-2 mt-3">
+              <Badge variant="outline" className="border-orange-200 text-orange-700 bg-orange-50">
+                😊 {currentUser.nickname}
+              </Badge>
+              {isHost && (
+                <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 text-white border-0">
+                  👑 방장
+                </Badge>
+              )}
+              <Badge variant="secondary" className="bg-amber-100 text-amber-700">
+                👥 {participants.length}명 참여
+              </Badge>
+            </div>
+            <div className="flex items-center justify-center gap-1 mt-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-orange-600 hover:text-orange-700 hover:bg-orange-50 cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href)
+                }}
+              >
+                📋 초대 링크 복사
+              </Button>
+              <Link href={`/room/${room.invite_code}/history`}>
+                <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-700 hover:bg-orange-50 cursor-pointer">
+                  📊 이력
+                </Button>
+              </Link>
+            </div>
           </div>
         </header>
 
         {/* 결과 (마감 시) */}
         {isClosed && winner && (
-          <div className="bg-orange-100 border border-orange-300 rounded-lg p-4 mb-6 text-center">
-            <p className="text-sm text-orange-600 mb-1">오늘의 점심</p>
-            <h2 className="text-2xl font-bold">{winner.place_name}</h2>
-            <p className="text-muted-foreground">{winner.vote_count}표</p>
+          <div className="bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 border border-orange-200 rounded-2xl p-6 mb-6 text-center shadow-lg shadow-orange-100 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full text-center text-2xl opacity-20 pointer-events-none select-none">
+              🎊🎉🎊🎉🎊🎉🎊🎉🎊🎉
+            </div>
+            <p className="text-sm text-orange-600 font-semibold mb-1">🏆 오늘의 점심</p>
+            <h2 className="text-3xl font-extrabold text-orange-700">{winner.place_name}</h2>
+            <p className="text-orange-500 font-bold text-lg mt-1">🗳️ {winner.vote_count}표</p>
             {winner.ai_comment && (
-              <p className="text-sm italic mt-2">&ldquo;{winner.ai_comment}&rdquo;</p>
+              <p className="text-sm italic mt-3 text-amber-700 bg-white/50 rounded-lg p-2 inline-block">
+                &ldquo;{winner.ai_comment}&rdquo;
+              </p>
             )}
           </div>
         )}
 
         {/* 카카오 지도 */}
         {recommendations.length > 0 && (
-          <div className="mb-6">
+          <div className="mb-6 rounded-2xl overflow-hidden shadow-md border border-orange-100">
             <KakaoMapViewer
               centerLat={room.latitude}
               centerLng={room.longitude}
@@ -206,29 +226,41 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
 
         {/* AI 전체 코멘트 */}
         {overallComment && (
-          <div className="bg-white border rounded-lg p-4 mb-4">
-            <p className="text-sm font-medium mb-1">셰프의 한마디</p>
-            <p className="text-sm italic">&ldquo;{overallComment}&rdquo;</p>
+          <div className="relative bg-white border border-orange-100 rounded-2xl p-5 mb-6 shadow-md shadow-orange-50">
+            <div className="absolute -top-3 left-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+              🧑‍🍳 셰프의 한마디
+            </div>
+            <p className="text-sm italic text-gray-700 mt-1 leading-relaxed">
+              &ldquo;{overallComment}&rdquo;
+            </p>
           </div>
         )}
 
         {/* AI 추천 받기 버튼 (방장만) */}
         {isHost && !isVoting && !isClosed && (
           <Button
-            className="w-full mb-6"
+            className="w-full mb-6 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:via-amber-600 hover:to-orange-600 text-white shadow-lg shadow-orange-200 hover:shadow-xl hover:shadow-orange-300 transition-all duration-300 text-lg py-7 rounded-xl font-bold cursor-pointer"
             size="lg"
             onClick={handleRecommend}
             disabled={loading}
           >
-            {loading ? 'AI 셰프가 고민 중...' : 'AI 추천 받기'}
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="animate-spin">🍳</span> AI 셰프가 고민 중...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                🧑‍🍳 AI 추천 받기
+              </span>
+            )}
           </Button>
         )}
 
         {/* 추천 카드 목록 */}
         {recommendations.length > 0 && (
           <div className="space-y-3 mb-6">
-            <h2 className="font-semibold text-lg">
-              {isClosed ? '최종 결과' : '오늘의 추천'}
+            <h2 className="font-bold text-lg flex items-center gap-2 text-orange-800">
+              {isClosed ? '🏁 최종 결과' : '✨ 오늘의 추천'}
             </h2>
             {recommendations
               .sort((a, b) => b.vote_count - a.vote_count)
@@ -248,17 +280,17 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
         {isHost && isVoting && (
           <Button
             variant="destructive"
-            className="w-full"
+            className="w-full rounded-xl py-5 text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
             onClick={handleClose}
           >
-            투표 마감
+            🔒 투표 마감
           </Button>
         )}
 
         {/* 새 투표 시작 (마감 후, 방장만) */}
         {isHost && isClosed && (
           <Button
-            className="w-full mt-4"
+            className="w-full mt-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl py-5 text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
             onClick={() => {
               setSession(null)
               setRecommendations([])
@@ -266,7 +298,7 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
               setOverallComment('')
             }}
           >
-            새 투표 시작
+            🔄 새 투표 시작
           </Button>
         )}
       </div>
