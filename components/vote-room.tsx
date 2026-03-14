@@ -125,6 +125,19 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
       if (data.overall_comment) {
         setOverallComment(data.overall_comment)
       }
+
+      // API 응답에서 직접 추천 데이터 반영 (Realtime 실패 대비)
+      if (data.recommendations) {
+        const recsWithVotes: RecommendationWithVotes[] = data.recommendations.map((rec: Recommendation) => ({
+          ...rec,
+          vote_count: 0,
+          voters: [],
+        }))
+        setRecommendations(recsWithVotes)
+      }
+
+      // 세션 상태를 voting으로 직접 업데이트
+      setSession((prev) => prev ? { ...prev, status: 'voting' } : prev)
     } catch (error) {
       console.error('추천 요청 실패:', error)
     }
@@ -135,12 +148,16 @@ export default function VoteRoom({ room, initialSession, initialParticipants, in
   async function handleVote(recommendationId: string) {
     if (!currentUser || !session) return
     await castVote(session.id, recommendationId, currentUser.id)
+    setMyVote(recommendationId)
+    // 직접 데이터 갱신 (Realtime 실패 대비)
+    await fetchRecommendations(session.id)
   }
 
   // 마감
   async function handleClose() {
     if (!session) return
     await closeVoteSession(session.id)
+    setSession((prev) => prev ? { ...prev, status: 'closed' } : prev)
   }
 
   if (!currentUser) {
