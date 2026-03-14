@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useKakaoMap } from '@/lib/hooks/use-kakao-map'
@@ -17,10 +17,14 @@ type Props = {
 
 export default function KakaoMap({ onLocationSelect }: Props) {
   const mapRef = useRef<HTMLDivElement>(null)
+  const callbackRef = useRef(onLocationSelect)
   const [map, setMap] = useState<any>(null)
   const [marker, setMarker] = useState<any>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const isLoaded = useKakaoMap()
+
+  // 콜백을 ref로 유지하여 useEffect 재실행 방지
+  callbackRef.current = onLocationSelect
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return
@@ -48,14 +52,14 @@ export default function KakaoMap({ onLocationSelect }: Props) {
           if (status === window.kakao.maps.services.Status.OK) {
             const addr = result[0].road_address?.address_name
               ?? result[0].address.address_name
-            onLocationSelect(latlng.getLat(), latlng.getLng(), addr)
+            callbackRef.current(latlng.getLat(), latlng.getLng(), addr)
           }
         }
       )
     })
-  }, [isLoaded, onLocationSelect])
+  }, [isLoaded])
 
-  function handleSearch() {
+  const handleSearch = useCallback(() => {
     if (!map || !searchQuery.trim()) return
 
     const ps = new window.kakao.maps.services.Places()
@@ -64,11 +68,12 @@ export default function KakaoMap({ onLocationSelect }: Props) {
         const place = data[0]
         const position = new window.kakao.maps.LatLng(place.y, place.x)
         map.setCenter(position)
+        map.setLevel(3)
         marker?.setPosition(position)
-        onLocationSelect(parseFloat(place.y), parseFloat(place.x), place.address_name)
+        callbackRef.current(parseFloat(place.y), parseFloat(place.x), place.address_name)
       }
     })
-  }
+  }, [map, marker, searchQuery])
 
   return (
     <div className="space-y-2">
